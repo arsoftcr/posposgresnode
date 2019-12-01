@@ -28,6 +28,10 @@ app.get('/', (request, response) => {
 })
 
 
+app.post('/jwt',db.validarUsuario)
+
+app.post('/ping',db.validarToken)
+
 app.get('/usuarios', db.getUsuarios)
 
 app.get('/usuarios/:cedula', db.getUsuarioXCedula)

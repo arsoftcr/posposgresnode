@@ -1,0 +1,14 @@
+if(validarUsuario()) {
+      const payload = {
+       check:  true
+      }
+      const token = jwt.sign(payload, app.get('llave'), {
+       expiresIn: 3600
+      })
+      res.json({
+       acces_token: token,
+       expires_in:3600
+      })
+        } else {
+            res.json({ mensaje: "Usuario o contraseña incorrectos"})
+        }

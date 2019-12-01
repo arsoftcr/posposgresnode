@@ -3,5 +3,6 @@ module.exports = {
     BD: process.env.BD || 'PSOREST',
     USUARIO: process.env.USUARIO || 'postgres',
     CLAVE: process.env.CLAVE || 'Rivipe19866',
+    llave: "miclaveultrasecreta123*",
   };
 
