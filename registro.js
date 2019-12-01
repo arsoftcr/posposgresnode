@@ -45,44 +45,60 @@ const getUsuarios = (request, response) => {
 
 
 
-  const validarUsuario= (request,response)=>{
-    const {correo,clave}=request.body
-   const select=
-    pool.query('SELECT correo,clave FROM registro where "correo"=$1  and "clave"=$2', [correo,clave],(error,results)=>{
+const validarUsuario = (request, response) => {
+  const { correo, clave } = request.body
+  const select =
+    pool.query('SELECT correo,clave FROM registro where "correo"=$1  and "clave"=$2', [correo, clave], (error, results) => {
       if (error) {
+       
         throw error
       }
+      
+      const datos = results.rows
 
-      if (results.rows!=null) {
 
-        const payload = {
-          
-          check:  true
-         
+  
+      if (typeof datos[0] !== null&&typeof datos[0]!=='undefined') {
+
+        let user = datos[0].correo
+
+        let pass = datos[0].clave
+
+        if (user === correo && pass === clave) {
+
+
+          const payload = {
+
+            check: true
+
+          }
+          const token = jwt.sign(payload, config.llave, {
+
+            expiresIn: 60
+
+          })
+          response.status(200).json({
+
+            acces_token: token,
+
+            expires_in: 60
+
+          })
+
+
+        } else {
+          response.status(400).json('Usuario o contraseña inválida')
         }
-         const token = jwt.sign(payload, config.llave, {
-
-          expiresIn: 60
-
-         })
-         response.status(200).json({
-
-          acces_token: token,
-
-          expires_in:60
-
-         })
-   
 
       } else {
         response.status(400).json('Usuario o contraseña inválida')
       }
-      
+
     })
 
-  
-    
-  }
+
+
+}
 
  
   const  validarToken=(request,response)=>{
